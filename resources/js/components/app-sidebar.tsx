@@ -39,7 +39,7 @@ const data = {
       isActive: true,
       items: [
         {
-          title: 'History',
+          title: 'Personel',
           url: '#',
         },
         {
