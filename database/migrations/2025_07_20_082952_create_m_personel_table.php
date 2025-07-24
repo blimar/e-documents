@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->uuid('m_jabatan_id');
             $table->uuid('m_pangkat_id');
+            $table->uuid('m_kelompok_id');
 
             $table->string('nama');
             $table->string('nrp')->unique();
@@ -24,6 +25,9 @@ return new class extends Migration {
                 ->references('id');
             $table->foreign('m_pangkat_id')
                 ->on('m_pangkat')
+                ->references('id');
+            $table->foreign('m_kelompok_id')
+                ->on('m_kelompok')
                 ->references('id');
         });
     }

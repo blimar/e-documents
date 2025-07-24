@@ -14,6 +14,7 @@ class MPersonel extends Model
     protected $fillable = [
         'm_jabatan_id',
         'm_pangkat_id',
+        'm_kelompok_id',
         'nama',
         'nrp'
     ];
@@ -26,5 +27,10 @@ class MPersonel extends Model
     public function pangkat()
     {
         return $this->belongsTo(MPangkat::class);
+    }
+
+    public function kelompok()
+    {
+        return $this->belongsTo(MKelompok::class);
     }
 }
