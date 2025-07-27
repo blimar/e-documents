@@ -40,7 +40,7 @@ const data = {
       items: [
         {
           title: 'Personel',
-          url: '#',
+          url: route('kelompok.index'),
         },
         {
           title: 'Starred',
