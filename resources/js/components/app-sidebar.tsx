@@ -43,12 +43,12 @@ const data = {
           url: route('kelompok.index'),
         },
         {
-          title: 'Starred',
-          url: '#',
+          title: 'Jabatan',
+          url: route('jabatan.index'),
         },
         {
-          title: 'Settings',
-          url: '#',
+          title: 'Pangkat',
+          url: route('pangkat.index'),
         },
       ],
     },

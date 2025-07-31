@@ -1,6 +1,6 @@
 'use client';
 
-import { Kelompok } from '@/types';
+import { Jabatan } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 
@@ -18,10 +18,10 @@ import { Link, router } from '@inertiajs/react';
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<Kelompok>[] = [
+export const columns: ColumnDef<Jabatan>[] = [
   {
     accessorKey: 'nama',
-    header: 'Nama Kelompok',
+    header: 'Nama Jabatan',
   },
   {
     accessorKey: 'created_at',
@@ -30,11 +30,10 @@ export const columns: ColumnDef<Kelompok>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const kelompok = row.original;
+      const jabatan = row.original;
 
       const handleDelete = () => {
-        console.log('tes');
-        router.delete(route('kelompok.destroy', [kelompok.id]));
+        router.delete(route('jabatan.destroy', [jabatan.id]));
       };
 
       return (
@@ -48,15 +47,10 @@ export const columns: ColumnDef<Kelompok>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              <Link href={route('kelompok.edit', [kelompok.id])}>Edit</Link>
+              <Link href={route('jabatan.edit', [jabatan.id])}>Edit</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link href={route('kelompok.personel.index', [kelompok.id])}>View Personel</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleDelete} variant="destructive">
-              Delete
-            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete} variant='destructive'>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

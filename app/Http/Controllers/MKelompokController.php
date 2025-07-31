@@ -41,49 +41,49 @@ class MKelompokController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MKelompok $mKelompok)
+    public function show(MKelompok $kelompok)
     {
-        $kelompok = MKelompok::find($mKelompok->id);
+        $kelompok = MKelompok::find($kelompok->id);
 
-        return response()->json($mKelompok);
+        return response()->json($kelompok);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(MKelompok $mKelompok)
+    public function edit(MKelompok $kelompok)
     {
-        return inertia('kelompok/form', compact('mKelompok'));
+        return inertia('kelompok/form', compact('kelompok'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MKelompok $mKelompok)
+    public function update(Request $request, MKelompok $kelompok)
     {
         $data = $request->validate([
-            'nama' => ['required', "m_kelompok,nama, {$mKelompok->id}"],
+            'nama' => ['required', "unique:m_kelompok,nama,{$kelompok->id}"],
         ]);
 
-        $mKelompok->update($data);
+        $kelompok->update($data);
         return redirect()->route('kelompok.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MKelompok $mKelompok)
+    public function destroy(MKelompok $kelompok)
     {
 
-        if ($mKelompok->personel()->exists()) {
+        if ($kelompok->personel()->exists()) {
 
             return back()->withErrors([
                 'message' => 'Kelompok ini masih digunakan oleh data Personel, data tidak bisa di hapus sebelum data personel pada kelompok ini kosong'
             ]);
         }
 
-        $mKelompok->delete();
-        dd($mKelompok);
+        $kelompok->delete();
+        // dd($mKelompok);
         return redirect()->route('kelompok.index');
     }
 }

@@ -20,5 +20,5 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('pangkat', MPangkatController::class);
     Route::resource('jabatan', MJabatanController::class);
     Route::resource('kelompok', MKelompokController::class);
-    Route::resource('personel', MPersonelController::class);
+    Route::resource('kelompok.personel', MPersonelController::class);
 });
