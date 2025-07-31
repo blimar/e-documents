@@ -34,9 +34,9 @@ export default function FormPersonel({ personel, kelompok, jabatans, pangkats }:
     e.preventDefault();
 
     if (personel) {
-      put(route('kelompok.personel.update', [personel.id]));
+      put(route('kelompok.personel.update', [kelompok.id, personel.id]));
     } else {
-      post(route('kelompok.personel.store'));
+      post(route('kelompok.personel.store', [kelompok.id]));
     }
   };
 

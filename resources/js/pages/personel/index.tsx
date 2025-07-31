@@ -1,21 +1,22 @@
 import DashboardLayout from '@/layouts/dashboard-layout';
-import { Personel } from '@/types';
+import { Kelompok, Personel } from '@/types';
 import { columns } from './columns';
 import { DataTable } from './data-table';
 
 interface Props {
-  personels: Personel[];
+  kelompok: Kelompok;
+  personels: Personel;
 }
 
-export default function HalamanPersonel({ personels }: Props) {
+export default function HalamanPersonel({ kelompok, personels }: Props) {
   return (
     <>
       <DashboardLayout>
         <div>
-          <h1 className='text-2xl font-bold tracking-tight'>Halaman Personel</h1>
-          <p className='text-muted-foreground'>List Data Personel</p>
-          <div className='my-5'>
-            <DataTable columns={columns} data={personels} />
+          <h1 className="text-2xl font-bold tracking-tight">Halaman Personel {kelompok.nama}</h1>
+          <p className="text-muted-foreground">List Data Personel {kelompok.nama}</p>
+          <div className="my-5">
+            <DataTable kelompokId={kelompok.id} columns={columns} data={personels} />
           </div>
         </div>
       </DashboardLayout>

@@ -13,17 +13,19 @@ class MPersonelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(MKelompok $kelompok)
     {
-        $personels = MPersonel::all();
+        $personels = MPersonel::with(['jabatan', 'pangkat'])
+            ->where('m_kelompok_id', $kelompok->id)
+            ->get();
 
-        return inertia('personel/index', compact('personels'));
+        return inertia('personel/index', compact('personels', 'kelompok'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(MKelompok $kelompok)
     {
         $pangkats = MPangkat::all();
         $jabatans = MJabatan::all();
@@ -31,14 +33,15 @@ class MPersonelController extends Controller
         return inertia('personel/form', [
             'pangkats' => $pangkats,
             'jabatans' => $jabatans,
-            'kelompoks' => $kelompoks
+            'kelompoks' => $kelompoks,
+            'kelompok' => $kelompok,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, MKelompok $kelompok)
     {
         $data = $request->validate([
             'm_jabatan_id' => ['required', 'exists:m_jabatan,id'],
@@ -49,7 +52,7 @@ class MPersonelController extends Controller
         ]);
 
         MPersonel::create($data);
-        return redirect()->route('kelompok.personel.index');
+        return redirect()->route('kelompok.personel.index', [$kelompok->id]);
     }
 
     /**
@@ -65,7 +68,7 @@ class MPersonelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(MPersonel $personel)
+    public function edit(MKelompok $kelompok, MPersonel $personel)
     {
         $pangkats = MPangkat::all();
         $jabatans = MJabatan::all();
@@ -74,31 +77,32 @@ class MPersonelController extends Controller
         return inertia('personel/form', [
             'pangkats' => $pangkats,
             'jabatans' => $jabatans,
-            'kelompoks' => $kelompoks
+            'kelompoks' => $kelompoks,
+            'kelompok' => $kelompok
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MPersonel $personel)
+    public function update(Request $request, MKelompok $kelompok, MPersonel $personel)
     {
         $data = $request->validate([
             'm_jabatan_id' => ['required', 'exists:m_jabatan,id'],
             'm_pangkat_id' => ['required', 'exists:m_pangkat,id'],
             'm_kelompok_id' => ['required', 'exists:m_kelompok,id'],
             'nama' => ['required', 'string'],
-            'nrp' => ['required', 'numeric', "unique:m_persone,nrp,{$personel->id}"]
+            'nrp' => ['required', 'numeric', "unique:m_persone,nrp"]
         ]);
 
         $personel->update($data);
-        return redirect()->route('kelompok.personel.index');
+        return redirect()->route('kelompok.personel.index', [$kelompok->id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MPersonel $personel)
+    public function destroy(MKelompok $kelompok, MPersonel $personel)
     {
         $personel->delete();
 
