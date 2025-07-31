@@ -21,16 +21,16 @@ class MPersonel extends Model
 
     public function jabatan()
     {
-        return $this->belongsTo(MJabatan::class);
+        return $this->belongsTo(MJabatan::class, 'm_jabatan_id');
     }
 
     public function pangkat()
     {
-        return $this->belongsTo(MPangkat::class);
+        return $this->belongsTo(MPangkat::class, 'm_pangkat_id');
     }
 
     public function kelompok()
     {
-        return $this->belongsTo(MKelompok::class);
+        return $this->belongsTo(MKelompok::class, 'm_kelompok_id');
     }
 }
