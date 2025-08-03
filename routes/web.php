@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocController;
 use App\Http\Controllers\MJabatanController;
 use App\Http\Controllers\MKelompokController;
 use App\Http\Controllers\MPangkatController;
@@ -21,4 +22,6 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('jabatan', MJabatanController::class);
     Route::resource('kelompok', MKelompokController::class);
     Route::resource('kelompok.personel', MPersonelController::class);
+
+    Route::get('/laporan-mutasi', [DocController::class, "laporanMutasi"])->name('laporan.mutasi');
 });
