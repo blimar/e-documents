@@ -23,5 +23,5 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('kelompok', MKelompokController::class);
     Route::resource('kelompok.personel', MPersonelController::class);
 
-    Route::get('/laporan-mutasi', [DocController::class, "laporanMutasi"])->name('laporan.mutasi');
+    Route::get('/laporan-mutasi/{tanggal}/{status}/{kelompok}', [DocController::class, "laporanMutasi"])->name('laporan.mutasi');
 });
