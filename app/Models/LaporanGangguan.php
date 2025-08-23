@@ -5,12 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
-class LaporanPolisi extends Model
+class LaporanGangguan extends Model
 {
     use HasUuids;
-
-    protected $table = "laporan_polisi";
-
+    protected $table = "laporan_gangguan";
     protected $fillable = [
         'lp_no',
         'LP No',

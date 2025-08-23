@@ -2,21 +2,18 @@
 
 namespace App\Filament\Resources\LaporanPolisis;
 
-use App\Filament\Resources\LaporanPolisis\Pages\ManageLaporanPolisis;
+use App\Filament\Resources\LaporanPolisis\Pages\CreateLaporanPolisi;
+use App\Filament\Resources\LaporanPolisis\Pages\EditLaporanPolisi;
+use App\Filament\Resources\LaporanPolisis\Pages\ListLaporanPolisis;
+use App\Filament\Resources\LaporanPolisis\Pages\ViewLaporanPolisi;
+use App\Filament\Resources\LaporanPolisis\Schemas\LaporanPolisiForm;
+use App\Filament\Resources\LaporanPolisis\Schemas\LaporanPolisiInfolist;
+use App\Filament\Resources\LaporanPolisis\Tables\LaporanPolisisTable;
 use App\Models\LaporanPolisi;
 use BackedEnum;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TimePicker;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use UnitEnum;
 
@@ -34,64 +31,36 @@ class LaporanPolisiResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Laporan';
 
+
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                TextInput::make('lp_no')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('tindak_pidana')
-                    ->required(),
-                DatePicker::make('tanggal_kejadian')
-                    ->required(),
-                TextInput::make('tempat_kejadian')
-                    ->required(),
-                Textarea::make('korban')
-                    ->required(),
-                Textarea::make('terlapor')
-                    ->required(),
-                Textarea::make('saksi')
-                    ->required(),
-                TextInput::make('sttlp')
-                    ->label('STTLP')
-                    ->required(),
-                Textarea::make('uraian')
-                    ->required(),
+        return LaporanPolisiForm::configure($schema);
+    }
 
-            ]);
+    public static function infolist(Schema $schema): Schema
+    {
+        return LaporanPolisiInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->recordTitleAttribute('lp_no')
-            ->columns([
-                TextColumn::make('lp_no')
-                    ->searchable(),
-                TextColumn::make('created_at')
-                    ->label('Created At')
-                    ->dateTime()
-                    ->searchable(),
-            ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+        return LaporanPolisisTable::configure($table);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ManageLaporanPolisis::route('/'),
+            'index' => ListLaporanPolisis::route('/'),
+            'create' => CreateLaporanPolisi::route('/create'),
+            'view' => ViewLaporanPolisi::route('/{record}'),
+            'edit' => EditLaporanPolisi::route('/{record}/edit'),
         ];
     }
 }

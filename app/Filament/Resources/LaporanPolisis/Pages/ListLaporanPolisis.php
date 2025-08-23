@@ -4,9 +4,9 @@ namespace App\Filament\Resources\LaporanPolisis\Pages;
 
 use App\Filament\Resources\LaporanPolisis\LaporanPolisiResource;
 use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ManageRecords;
+use Filament\Resources\Pages\ListRecords;
 
-class ManageLaporanPolisis extends ManageRecords
+class ListLaporanPolisis extends ListRecords
 {
     protected static string $resource = LaporanPolisiResource::class;
 

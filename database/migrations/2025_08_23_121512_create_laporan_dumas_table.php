@@ -10,21 +10,17 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('laporan_polisi', function (Blueprint $table) {
+        Schema::create('laporan_dumas', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('lp_no')->unique();
-            $table->string('nama_pelapor');
-            $table->string('korban');
-            $table->string('terlapor');
-            $table->string('saksi');
-            $table->string('pasal');
+            $table->string('no');
+            $table->string('nama_pengadu');
+            $table->string('nama_teradu');
+            $table->text('kronologi');
             $table->text('barang_bukti');
-            $table->text('uraian_kejadian');
-            $table->dateTime('waktu_kejadian');
-            $table->string('tempat_kejadian');
-            $table->dateTime('waktu_dilaporkan');
+            $table->text('modus');
             $table->string('satker');
             $table->string('foto')->nullable();
+            $table->dateTime('waktu_dilaporkan');
             $table->timestamps();
         });
     }
@@ -34,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('laporan_polisi');
+        Schema::dropIfExists('laporan_dumas');
     }
 };

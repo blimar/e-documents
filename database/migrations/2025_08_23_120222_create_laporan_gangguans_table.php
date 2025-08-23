@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('laporan_polisi', function (Blueprint $table) {
+        Schema::create('laporan_gangguan', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('lp_no')->unique();
             $table->string('nama_pelapor');
@@ -34,6 +34,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('laporan_polisi');
+        Schema::dropIfExists('laporan_gangguan');
     }
 };

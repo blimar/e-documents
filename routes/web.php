@@ -10,10 +10,13 @@ use App\Models\MKelompok;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return inertia('home');
-})->name('home');
+// Route::get('/', function () {
+//     return inertia('home');
+// })->name('home');
 
+Route::get('/', function () {
+    return redirect('/admin');
+});
 
 
 Route::prefix('dashboard')->group(function () {
