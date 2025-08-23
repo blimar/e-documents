@@ -22,6 +22,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 use UnitEnum;
 
@@ -54,8 +55,15 @@ class LaporanMutasiResource extends Resource
     {
         return $table
             ->recordTitleAttribute('deskripsi')
+            ->query(
+                LaporanMutasi::query()->latest('created_at')
+            )
             ->columns([
                 TextColumn::make('deskripsi')
+                    ->searchable(),
+                TextColumn::make('created_at')
+                    ->label('Created At')
+                    ->dateTime()
                     ->searchable(),
             ])
             ->filters([
