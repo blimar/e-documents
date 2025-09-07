@@ -124,7 +124,7 @@ class LaporanHarianResource extends Resource
                             $formattedDate = Carbon::parse($tanggal)->format('Y-m-d');
 
                             $data[] = [
-                                'formattedDate' => $formattedDate
+                                'tanggal' => $formattedDate
                             ];
 
 

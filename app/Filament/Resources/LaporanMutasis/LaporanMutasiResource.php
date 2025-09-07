@@ -5,6 +5,7 @@ namespace App\Filament\Resources\LaporanMutasis;
 use App\Filament\Resources\LaporanMutasis\Pages\ManageLaporanMutasis;
 use App\Models\LaporanMutasi;
 use App\Models\MKelompok;
+use App\Models\MPersonel;
 use BackedEnum;
 use Carbon\Carbon;
 use Filament\Actions\Action;
@@ -100,20 +101,68 @@ class LaporanMutasiResource extends Resource
                                 'malam' => 'Malam',
                                 'harian' => 'Harian'
                             ]),
-                        Select::make('kelompok')
+                        Select::make('kelompok_id')
                             ->required()
                             ->label('Kelompok')
                             ->options(MKelompok::all()->pluck('nama', 'id'))
                             ->searchable(),
+                        Select::make('petugas_lama_id')
+                            ->label('Nama Petugas Lama')
+                            ->options(function (callable $get) {
+                                $kelompokId = $get('kelompok_id'); // ambil value dari field pertama
+
+                                if (!$kelompokId) {
+                                    return [];
+                                }
+
+                                return MPersonel::where('m_kelompok_id', $kelompokId)
+                                    ->pluck('nama', 'id');
+                            })
+                            ->searchable()
+                            ->required(),
+                        Select::make('petugas_baru_id')
+                            ->label('Nama Petugas Baru')
+                            ->options(function (callable $get) {
+                                $kelompokId = $get('kelompok_id'); // ambil value dari field pertama
+
+                                if (!$kelompokId) {
+                                    return [];
+                                }
+
+                                return MPersonel::where('m_kelompok_id', $kelompokId)
+                                    ->pluck('nama', 'id');
+                            })
+                            ->searchable()
+                            ->required(),
+                        Select::make('pimpinan_id')
+                            ->label('Pimpinan')
+                            ->options(function (callable $get) {
+                                $kelompokId = $get('kelompok_id'); // ambil value dari field pertama
+
+                                if (!$kelompokId) {
+                                    return [];
+                                }
+
+                                return MPersonel::where('m_kelompok_id', $kelompokId)
+                                    ->pluck('nama', 'id');
+                            })
+                            ->searchable()
+                            ->required(),
                     ])
                     ->action(function (array $data) {
                         $tanggal = $data['tanggal'];
                         $formattedDate = Carbon::parse($tanggal)->format('Y-m-d');
-                        return redirect()->route('laporan.mutasi', [
-                            'tanggal' => $formattedDate,
-                            'status' => $data['status'],
-                            'kelompok' => $data['kelompok']
-                        ]);
+                        $data[] = [
+                                'tanggal' => $formattedDate
+                        ];
+
+                        request()->merge($data);
+                        return app(\App\Http\Controllers\DocController::class)->laporanMutasi(request());
+                        // return redirect()->route('laporan.mutasi', [
+                        //     'tanggal' => $formattedDate,
+                        //     'status' => $data['status'],
+                        //     'kelompok' => $data['kelompok']
+                        // ]);
                     })
             ]);
     }

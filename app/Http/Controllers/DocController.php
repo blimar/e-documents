@@ -21,15 +21,26 @@ use Illuminate\Support\Facades\Response;
 
 class DocController extends Controller
 {
-    public function laporanMutasi(Request $request, string $tanggal, string $status, string $kelompok)
+    public function laporanMutasi(Request $request)
     {
+
+        $tanggal = $request->tanggal;
+        $status = $request->status;
+        $kelompok_id = $request->kelompok_id;
+        $petugas_lama_id = $request->petugas_lama_id;
+        $petugas_baru_id = $request->petugas_baru_id;
+        $pimpinan_id = $request->pimpinan_id;
+
+        $petugas_lama = MPersonel::find($petugas_lama_id);
+        $petugas_baru = MPersonel::find($petugas_baru_id);
+        $pimpinan = MPersonel::find($pimpinan_id);
 
         $template_path = public_path("templates/laporan_mutasi.docx");
         $template = new TemplateProcessor($template_path);
 
         // Header
         $kelompok = MKelompok::with(['personel.pangkat', 'personel.jabatan'])
-            ->find($kelompok);
+            ->find($kelompok_id);
 
         $template->setValue("kelompok", $kelompok->nama);
         $template->setValue("date", Carbon::parse($tanggal)->translatedFormat('d F Y'));
@@ -42,17 +53,17 @@ class DocController extends Controller
         }
 
         // Footer
-        $template->setValue("nama_petugas_baru", "Petugas baru");
-        $template->setValue("pangkat_petugas_baru", "Beginner");
-        $template->setValue("nrp_petugas_baru", "01234567");
+        $template->setValue("nama_petugas_baru", $petugas_baru->nama);
+        $template->setValue("pangkat_petugas_baru", $petugas_baru->jabatan->nama);
+        $template->setValue("nrp_petugas_baru", $petugas_baru->nrp);
 
-        $template->setValue("nama_petugas_lama", "Petugas lama");
-        $template->setValue("pangkat_petugas_lama", "Intermediete");
-        $template->setValue("nrp_petugas_lama", "7654321");
+        $template->setValue("nama_petugas_lama", $petugas_lama->nama);
+        $template->setValue("pangkat_petugas_lama", $petugas_lama->jabatan->nama);
+        $template->setValue("nrp_petugas_lama", $petugas_lama->nrp);
 
-        $template->setValue("nama_pimpinan", "Petugas pimpinan");
-        $template->setValue("pangkat_pimpinan", "Leader");
-        $template->setValue("nrp_pimpinan", "9876542");
+        $template->setValue("nama_pimpinan", $pimpinan->nama);
+        $template->setValue("pangkat_pimpinan", $pimpinan->jabatan->nama);
+        $template->setValue("nrp_pimpinan", $pimpinan->nrp);
 
         $template->setValue("today", Carbon::parse($tanggal)->translatedFormat('d F Y'));
 
