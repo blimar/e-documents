@@ -97,7 +97,8 @@ class LaporanMutasiResource extends Resource
                             ->inline()
                             ->options([
                                 'siang' => 'Siang',
-                                'malam' => 'Malam'
+                                'malam' => 'Malam',
+                                'harian' => 'Harian'
                             ]),
                         Select::make('kelompok')
                             ->required()
